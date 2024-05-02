@@ -4,9 +4,12 @@ import TaskList from "@/components/TaskList";
 
 const getTasks = async () => {
     try {
-        const response = await fetch('https://todo-v3.vercel.app/api/get-tasks',{
+        const response = await fetch('http://localhost:3000/api/get-tasks',{
             next:{tags:['tasks'],
             revalidate:0
+            }
+            ,headers:{
+                "Content-Type": "application/json",
             }
         });
         return response.json();
@@ -18,9 +21,9 @@ const getTasks = async () => {
 const createTask = async (formData:FormData) => {
     "use server";
     try {
-        await fetch('https://todo-v3.vercel.app/api/create-task',{
+        await fetch('http://localhost:3000/api/create-task',{
             method:"POST",
-            body:formData
+            body:formData,
             })
         revalidateTag('tasks')
     } catch (e:any) {
@@ -33,8 +36,11 @@ const deleteTask = async (formData:FormData) => {
     "use server"
     try {
         const id = formData.get('id') as string;
-         await fetch(`https://todo-v3.vercel.app/api/delete-task?id=${id}`,{
-            method:"DELETE"
+         await fetch(`http://localhost:3000/api/delete-task?id=${id}`,{
+            method:"DELETE",
+             headers:{
+                 "Content-Type": "application/json",
+             }
         });
         revalidateTag('tasks');
     } catch (e:any) {
@@ -44,9 +50,10 @@ const deleteTask = async (formData:FormData) => {
 const updateTask = async (formData:FormData) => {
     "use server"
     try {
-        await fetch(`https://todo-v3.vercel.app/api/update-task`,{
+        await fetch(`http://localhost:3000/api/update-task`,{
             method:"PUT",
-            body:formData
+            body:formData,
+
         })
         revalidateTag('tasks');
     }
