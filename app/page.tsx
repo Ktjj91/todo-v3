@@ -10,7 +10,7 @@ const getTasks = async () => {
             }
             ,headers:{
                 "Content-Type": "application/json",
-            }
+            },
         });
         return response.json();
     } catch (e:any) {
